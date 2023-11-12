@@ -11,6 +11,7 @@ import (
 func main() {
 	cfg := configs.InitConfig()
 
+	//HTTP Server
 	r := gin.Default()
 	authSvc := auth.InitRoutes(r, cfg)
 	fmt.Println(authSvc)
