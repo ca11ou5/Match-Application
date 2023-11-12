@@ -315,7 +315,7 @@ func (c *authServiceClient) SignUp(ctx context.Context, in *SignUpRequest, opts 
 	return out, nil
 }
 
-// AuthServiceServer is the server API for AuthService service.
+// AuthServiceServer is the service API for AuthService service.
 type AuthServiceServer interface {
 	SignUp(context.Context, *SignUpRequest) (*SignUpResponse, error)
 }
