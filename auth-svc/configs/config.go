@@ -6,7 +6,13 @@ import (
 )
 
 type Config struct {
-	Port string `mapstructure:"PORT"`
+	Port             string `mapstructure:"PORT"`
+	PostgresDb       string `mapstructure:"POSTGRES_DB"`
+	PostgresUser     string `mapstructure:"POSTGRES_USER"`
+	PostgresPassword string `mapstructure:"POSTGRES_PASSWORD"`
+	PostgresHost     string `mapstructure:"POSTGRES_HOST"`
+	PostgresPort     string `mapstructure:"POSTGRES_PORT"`
+	PostgresSsl      string `mapstructure:"POSTGRES_SSL"`
 }
 
 func InitConfig() *Config {

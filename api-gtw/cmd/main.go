@@ -19,5 +19,4 @@ func main() {
 	if err != nil {
 		log.Fatal("failed to run http server: " + err.Error())
 	}
-
 }

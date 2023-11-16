@@ -1,7 +1,7 @@
 package service
 
-type Server struct{}
+import "auth-svc/internal/repository"
 
-func NewServer() *Server {
-	return &Server{}
+type Server struct {
+	Repo *repository.Repository
 }
