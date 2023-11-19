@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3.8'
 services:
   api-gtw:
     image: api-gtw:latest
@@ -9,6 +9,18 @@ services:
       - auth-svc
     networks:
       - auth-svc
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    networks:
+      - postgres
+      - migrate
+
   auth-svc:
     image: auth-svc:latest
     container_name: auth-svc
@@ -19,22 +31,26 @@ services:
       - auth-svc
       - postgres
       - redis
+
+  migrate:
+    image: migrate/migrate:latest
+    container_name: migrate
+    depends_on:
+      - postgres
+    networks:
+      - migrate
+    volumes:
+      - ./auth-svc/internal/repository/migrations:/migrations
+    command: -path /migrations -database "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?sslmode=${POSTGRES_SSL}" -verbose up
+
   redis:
-    image: redis:latest
+    image: redis
     container_name: redis
     networks:
       - redis
-  postgres:
-    image: postgres:latest
-    container_name: postgres
-    environment:
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    networks:
-      - postgres
 
 networks:
   auth-svc:
-  redis:
   postgres:
+  redis:
+  migrate:

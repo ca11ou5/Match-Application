@@ -27,4 +27,5 @@ func FillRedis() {
 	for _, v := range cities {
 		fmt.Println(v)
 	}
+	fmt.Println(len(cities))
 }
