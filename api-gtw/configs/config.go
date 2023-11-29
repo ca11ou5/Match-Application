@@ -1,28 +1,21 @@
 package configs
 
 import (
-	"github.com/spf13/viper"
-	"log"
+	"api-gtw/pkg/logging"
+	"github.com/ilyakaznacheev/cleanenv"
 )
 
 type Config struct {
-	Port       string `mapstructure:"PORT"`
-	AuthSvcUrl string `mapstructure:"AUTH_SVC_URL"`
+	Port       string `env:"PORT" env-default:"8080"`
+	AuthSvcUrl string `env:"AUTH_SVC_URL"`
 }
 
-func InitConfig() *Config {
-	viper.SetConfigFile("./configs/envs/dev.env")
-	viper.AutomaticEnv()
-	err := viper.ReadInConfig()
-	if err != nil {
-		log.Fatal("failed to read config: " + err.Error())
-	}
-
+func InitConfig(log *logging.Logger) *Config {
 	cfg := &Config{}
-	err = viper.Unmarshal(cfg)
-	if err != nil {
-		log.Fatal("failed to unmarshal config: " + err.Error())
-	}
 
+	err := cleanenv.ReadConfig("./configs/envs/local.env", cfg)
+	if err != nil {
+		log.WithError(err).Fatal()
+	}
 	return cfg
 }

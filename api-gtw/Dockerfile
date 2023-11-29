@@ -10,6 +10,6 @@ RUN go build -o ./bin/main ./cmd/main.go
 FROM alpine AS runner
 
 COPY --from=builder /usr/local/src/bin/main ./
-COPY ./configs/envs/dev.env ./configs/envs/dev.env
+COPY configs/envs/local.env ./configs/envs/local.env
 
 CMD ["./main"]

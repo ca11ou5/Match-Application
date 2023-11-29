@@ -20,6 +20,6 @@ FROM alpine:latest AS runner
 #ENTRYPOINT ["./migrations/migrate -source ./migrations/ -database postgres://postgres:5432/kit up 1"]
 
 COPY --from=builder /usr/local/src/bin/main /main
-COPY ./configs/envs/dev.env ./configs/envs/dev.env
+COPY configs/envs/local.env ./configs/envs/local.env
 
 CMD ["./main"]
